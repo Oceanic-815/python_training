@@ -4,7 +4,6 @@ import pytest
 from fixture.application import Application
 from model.group import Group
 
-
 @pytest.fixture
 def app(request):
     fixture = Application()
