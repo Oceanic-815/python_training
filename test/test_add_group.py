@@ -13,12 +13,12 @@ def app(request):
 
 def test_add_group(app):
     #success = True
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_group(Group(name="3333", header="3333", footer="3333"))
-    app.logout()
+    app.session.logout()
 
 #***>> added manually to check behaviour with empty fields <<***
 def test_add_empty_group(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_group(Group(name="", header="", footer=""))
-    app.logout()
+    app.session.logout()
