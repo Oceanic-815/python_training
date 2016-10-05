@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains
 import time, unittest
 from contact_properties import Contact_properties
+
 def is_alert_present(wd):
     try:
         wd.switch_to_alert().text
@@ -14,7 +14,7 @@ class test_add_new_contact(unittest.TestCase):
     def setUp(self):
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
-    
+
     def test_add_new_contact(self):
         wd = self.wd
         self.open_home_page(wd)
@@ -22,12 +22,18 @@ class test_add_new_contact(unittest.TestCase):
         self.add_contact(wd, Contact_properties(firstname="nameee1", middlename="middle name", lastname="last nameee1", nickname="nickname1", title="jhfdjbjd", company="kjjhjfgbkjd", address="dnfbghjdhbh, 123/32", home="65767834687643", mobile="2376478476", work="3746539", fax="23343344", email="hggft@nfm.com", email2="dfghng@ghf.jg", email3="swegf@hgbhf.bb", homepage="sdfgf.nbm.cn", byear="1555", ayear="1666", address2="hsgjdgjbs, 12/14", phone2="1524152145", notes="fhgjhghsghvdvbbhghjfuefghyhrggfdv.,xj"))
         self.logout(wd)
 
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
+    def login(self, wd, username, password):
         wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").send_keys("\\undefined")
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").send_keys("\\undefined")
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys(username)
+        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
+
+    def open_home_page(self, wd):
+        wd.get("http://localhost/addressbook/")
+
 
     def add_contact(self, wd, contact_properties):
         # open "Add new contact" page
@@ -84,7 +90,6 @@ class test_add_new_contact(unittest.TestCase):
         wd.find_element_by_name("email2").click()
         wd.find_element_by_name("email2").clear()
         wd.find_element_by_name("email2").send_keys(contact_properties.email2)
-        wd.find_element_by_name("theform").click()
         # enter the third email address
         wd.find_element_by_name("email3").click()
         wd.find_element_by_name("email3").clear()
@@ -121,19 +126,9 @@ class test_add_new_contact(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact_properties.notes)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def login(self, wd, username, password):
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
+    def logout(self, wd):
+        wd.find_element_by_link_text("Logout").click()
 
     def tearDown(self):
         self.wd.quit()
