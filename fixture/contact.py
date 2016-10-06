@@ -5,7 +5,6 @@ class ContactHelper:
 
     def add_contact(self, contact_properties):
         wd = self.app.wd
-        #self.open_home_page() # probably not necessary
             # open "Add new contact" page
         wd.find_element_by_link_text("add new").click()
             # enter a first name
@@ -96,3 +95,14 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact_properties.notes)
+            #saving contact
+        wd.find_element_by_name("submit").click()
+
+    def del_contact(self):
+        wd = self.app.wd
+         # select the first contact from the list
+        wd.find_element_by_name("selected[]").click()
+         # contact deletion begins
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        wd.find_element_by_link_text("home").click()

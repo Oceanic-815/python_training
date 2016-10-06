@@ -8,7 +8,7 @@ def app(request):
     request.addfinalizer(fixture.destroy)
     return fixture
 
-@pytest.fixture
+@pytest.fixture(scope = "session")
 def app_cont(request):
     fixture = Actions()
     request.addfinalizer(fixture.destroy)
