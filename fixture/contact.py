@@ -5,7 +5,7 @@ class ContactHelper:
 
     def add_contact(self, contact_properties):
         wd = self.app.wd
-        self.open_home_page() # probably not necessary
+        #self.open_home_page() # probably not necessary
             # open "Add new contact" page
         wd.find_element_by_link_text("add new").click()
             # enter a first name
