@@ -9,7 +9,7 @@ def app(request):
     return fixture
 
 @pytest.fixture
-def app(request):
+def app_cont(request):
     fixture = Actions()
     request.addfinalizer(fixture.destroy)
     return fixture
