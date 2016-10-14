@@ -2,7 +2,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from fixture.session import SessionHelper
 from fixture.group import GroupHelper
 from fixture.contact import ContactHelper
-from fixture.session_cont import Session_contHelper
+#from fixture.session_cont import Session_contHelper
 
 class Application:
     def __init__(self):
@@ -11,7 +11,7 @@ class Application:
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self) # for contacts
-        self.session_cont = Session_contHelper(self) # for contacts
+        #self.session_cont = Session_contHelper(self) # for contacts
 
     def is_valid(self):
         try:
