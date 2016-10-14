@@ -9,7 +9,7 @@ class Application:
         self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
-        self.contact = ContactHelper(self) # for contacts
+        self.contact = ContactHelper(self)
 
     def is_valid(self):
         try:

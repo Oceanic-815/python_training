@@ -100,6 +100,7 @@ class ContactHelper:
 
     def edit_contact(self):
         wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
             # select the first contact from the list
         wd.find_element_by_name("selected[]").click()
             # clicking Edit to edit the selected contact
@@ -197,6 +198,7 @@ class ContactHelper:
 
     def del_contact(self):
         wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
          # select the first contact from the list
         wd.find_element_by_name("selected[]").click()
          # contact deletion begins
