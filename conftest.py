@@ -1,6 +1,5 @@
 import pytest
 from fixture.application import Application
-from fixture.actions import Actions
 
 fixture = None
 
@@ -15,6 +14,13 @@ def app(request):
     fixture.session.ensure_login(username="admin", password="secret")
     return fixture
 
+# for contacts
+@pytest.fixture(scope = "session")
+def app_cont(request):
+    fixture = Application()
+    request.addfinalizer(fixture.destroy)
+    return fixture
+
 @pytest.fixture(scope = "session", autouse=True)
 def stop(request):
     def fin():
@@ -23,10 +29,6 @@ def stop(request):
     request.addfinalizer(fin)
     return fixture
 
-@pytest.fixture(scope = "session")
-def app_cont(request):
-    fixture = Actions()
-    request.addfinalizer(fixture.destroy)
-    return fixture
+
 
 

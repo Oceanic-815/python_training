@@ -1,3 +1,4 @@
+"""
 from selenium.webdriver.firefox.webdriver import WebDriver
 from fixture.contact import ContactHelper
 from fixture.session_cont import Session_contHelper
@@ -15,3 +16,4 @@ class Actions:
 
     def destroy(self):
         self.wd.quit()
+"""
