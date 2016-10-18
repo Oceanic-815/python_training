@@ -100,7 +100,9 @@ class ContactHelper:
 
     def edit_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+            # open contacts page if this page is still not open. Else - start editing contact
+        if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
+            wd.find_element_by_link_text("home").click()
             # select the first contact from the list
         wd.find_element_by_name("selected[]").click()
             # clicking Edit to edit the selected contact
@@ -198,7 +200,9 @@ class ContactHelper:
 
     def del_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        # open contacts page if this page is still not open. Else - start deleting contact
+        if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
+            wd.find_element_by_link_text("home").click()
          # select the first contact from the list
         wd.find_element_by_name("selected[]").click()
          # contact deletion begins
@@ -206,6 +210,7 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         wd.find_element_by_link_text("home").click()
 
+        # define if there is any contact in the contacts list
     def count_cont(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
