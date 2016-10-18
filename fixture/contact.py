@@ -97,6 +97,7 @@ class ContactHelper:
         wd.find_element_by_name("notes").send_keys(contact_properties.notes)
             #saving contact
         wd.find_element_by_name("submit").click()
+        wd.find_element_by_link_text("home").click()
 
     def edit_contact(self):
         wd = self.app.wd
