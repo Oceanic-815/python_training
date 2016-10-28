@@ -219,14 +219,21 @@ class ContactHelper:
         wd.find_element_by_link_text("home").click()
         return len(wd.find_elements_by_name("selected[]"))
 
+        # Сравниваем список контактов до и после добавления/удаления/модификации групп
     def get_contact_list(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
         contacts_list = []
-        for element in wd.find_elements_by_css_selector("td.center"):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts_list.append(Contact_properties(lastname=text, id=id))
+        for element in wd.find_elements_by_name("entry"):
+            id = element.find_element_by_name("selected[]").get_attribute("value")  # записываем в переменную атрибут "value" чек бокса
+            cellsList = element.find_elements_by_tag_name("td")  # присваиваем переменной cellsList список элементов с именем тэга "td" - все ячейки строки
+            lastNameCell = cellsList[1] # присваиваем переменной второй элемент в списке - ячейку с фамилией
+            firstNameCell = cellsList[2] # ячейка с именем
+            textFromLastName = lastNameCell.text # получаем текст из ячейки с фамилией
+            textFromFirstName = firstNameCell.text  # получаем текст из ячейки с именем
+            contacts_list.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName, id=id))  # добавляем имя, фамилию и id в список контактов
         return contacts_list
+
+
 
 

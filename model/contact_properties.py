@@ -21,3 +21,4 @@ class Contact_properties:
         self.phone2 = phone2
         self.notes = notes
         self.id = id
+
