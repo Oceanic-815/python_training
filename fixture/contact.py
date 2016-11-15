@@ -100,6 +100,9 @@ class ContactHelper:
             #saving contact
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("home").click()
+            # Clean up cache
+        self.contact_cache = None
+
 
     def edit_contact(self):
         wd = self.app.wd
