@@ -103,14 +103,16 @@ class ContactHelper:
             # Clean up cache
         self.contact_cache = None
 
-
     def edit_contact(self):
+        self.edit_contact_by_index(0)
+
+    def edit_contact_by_index(self, index_cont):
         wd = self.app.wd
             # open contacts page if this page is still not open. Else - start editing contact
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
             wd.find_element_by_link_text("home").click()
             # select the first contact from the list
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index_cont].click()
             # clicking Edit to edit the selected contact
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
             # Editing contact
@@ -207,12 +209,15 @@ class ContactHelper:
         self.contact_cache = None
 
     def del_contact(self):
+        self.del_contact_by_index(0)
+
+    def del_contact_by_index(self, index_cont):
         wd = self.app.wd
         # open contacts page if this page is still not open. Else - start deleting contact
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
             wd.find_element_by_link_text("home").click()
          # select the first contact from the list
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index_cont].click()
          # contact deletion begins
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
