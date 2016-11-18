@@ -105,16 +105,17 @@ class ContactHelper:
 
     def edit_contact(self):
         self.edit_contact_by_index(0)
+        self.contact_cache = None
 
     def edit_contact_by_index(self, index_cont):
         wd = self.app.wd
-            # open contacts page if this page is still not open. Else - start editing contact
+        # open contacts page if this page is still not open. Else - start editing contact
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
             wd.find_element_by_link_text("home").click()
-            # select the first contact from the list
-        wd.find_elements_by_name("selected[]")[index_cont].click()
-            # clicking Edit to edit the selected contact
-        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        rowList = wd.find_elements_by_name("entry")[index_cont]
+        cellsList = rowList.find_elements_by_tag_name("td") # создаем список ячеек в строке
+        selectCell =  cellsList[7] # присваиваем переменной восьмую ячейку
+        selectCell.find_element_by_tag_name("a").click()
             # Editing contact
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -247,7 +248,5 @@ class ContactHelper:
                 textFromFirstName = firstNameCell.text  # получаем текст из ячейки с именем
                 self.contact_cache.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName, id=id))  # добавляем имя, фамилию и id в список контактов
         return list(self.contact_cache)
-
-
 
 
