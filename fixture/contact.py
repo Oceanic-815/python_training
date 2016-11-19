@@ -1,4 +1,5 @@
 from model.contact_properties import Contact_properties
+import re
 
 class ContactHelper:
 
@@ -147,19 +148,19 @@ class ContactHelper:
             # enter home phone number
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys("Edited!!!")
+        wd.find_element_by_name("home").send_keys("100000")
             # enter mobile phone number
         wd.find_element_by_name("mobile").click()
         wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys("Edited!!!")
+        wd.find_element_by_name("mobile").send_keys("111111")
             # enter work phone number
         wd.find_element_by_name("work").click()
         wd.find_element_by_name("work").clear()
-        wd.find_element_by_name("work").send_keys("Edited!!!")
+        wd.find_element_by_name("work").send_keys("222222")
             # enter a faz number
         wd.find_element_by_name("fax").click()
         wd.find_element_by_name("fax").clear()
-        wd.find_element_by_name("fax").send_keys("Edited!!!")
+        wd.find_element_by_name("fax").send_keys("333333")
             # enter the first email address
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
@@ -199,7 +200,7 @@ class ContactHelper:
             # enter the second phone number
         wd.find_element_by_name("phone2").click()
         wd.find_element_by_name("phone2").clear()
-        wd.find_element_by_name("phone2").send_keys("Edited!!!")
+        wd.find_element_by_name("phone2").send_keys("444444")
             # enter notes
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
@@ -246,7 +247,51 @@ class ContactHelper:
                 firstNameCell = cellsList[2] # ячейка с именем
                 textFromLastName = lastNameCell.text # получаем текст из ячейки с фамилией
                 textFromFirstName = firstNameCell.text  # получаем текст из ячейки с именем
-                self.contact_cache.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName, id=id))  # добавляем имя, фамилию и id в список контактов
+                all_phones = cellsList[5].text.splitlines() # из ячейки 5 берем text и затем разбиваем его на части
+                self.contact_cache.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName, id=id, home=all_phones[0], mobile=all_phones[1], work=all_phones[2], phone2=all_phones[3]))  # добавляем имя, фамилию и id в список контактов, а также телефоны
         return list(self.contact_cache)
+
+    def open_contact_edit_page_by_index(self, index_cont):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
+            wd.find_element_by_link_text("home").click()
+        rowList = wd.find_elements_by_name("entry")[index_cont]
+        selectCell = rowList.find_elements_by_tag_name("td")[7]
+        selectCell.find_element_by_tag_name("a").click()
+
+    def open_contact_view_page_by_index(self, index_cont):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
+            wd.find_element_by_link_text("home").click()
+        rowList = wd.find_elements_by_name("entry")[index_cont]
+        selectCell = rowList.find_elements_by_tag_name("td")[6]
+        selectCell.find_element_by_tag_name("a").click()
+
+    def get_contact_info_from_edit_page(self, index_cont):
+        self.open_contact_edit_page_by_index(index_cont)
+        wd = self.app.wd
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        home = wd.find_element_by_name("home").get_attribute("value")
+        work = wd.find_element_by_name("work").get_attribute("value")
+        mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        phone2 = wd.find_element_by_name("phone2").get_attribute("value")
+        wd.find_element_by_link_text("home").click()
+        # Из полученных данных строим объект (название_параметра = название_локальной_переменной)
+        return Contact_properties(firstname=firstname, lastname=lastname, id=id, home=home, work=work, mobile=mobile, phone2=phone2)
+
+    def get_contact_from_view_page(self, index_cont):
+        wd = self.app.wd
+        self.open_contact_view_page_by_index(index_cont)
+        text = wd.find_element_by_id("content").text # получаем текст со страницы просмотра контакта
+        homephone = re.search("H: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        secondaryphone = re.search("P: (.*)", text).group(1)
+        wd.find_element_by_link_text("home").click()
+        return Contact_properties(home=homephone, work=workphone, mobile=mobilephone,
+                                  phone2=secondaryphone)
+
 
 

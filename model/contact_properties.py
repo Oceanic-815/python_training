@@ -8,9 +8,9 @@ class Contact_properties:
         self.title = title
         self.company = company
         self.address = address
-        self.home = home
-        self.mobile = mobile
-        self.work = work
+        self.home = home #get this
+        self.mobile = mobile #get this
+        self.work = work #get this
         self.fax = fax
         self.email = email
         self.email2 = email2
@@ -19,7 +19,7 @@ class Contact_properties:
         self.byear = byear
         self.ayear = ayear
         self.address2 = address2
-        self.phone2 = phone2
+        self.phone2 = phone2 #get this
         self.notes = notes
         self.id = id
 
