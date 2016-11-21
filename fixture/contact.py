@@ -247,8 +247,12 @@ class ContactHelper:
                 firstNameCell = cellsList[2] # ячейка с именем
                 textFromLastName = lastNameCell.text # получаем текст из ячейки с фамилией
                 textFromFirstName = firstNameCell.text  # получаем текст из ячейки с именем
-                all_phones = cellsList[5].text.splitlines() # из ячейки 5 берем text и затем разбиваем его на части
-                self.contact_cache.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName, id=id, home=all_phones[0], mobile=all_phones[1], work=all_phones[2], phone2=all_phones[3]))  # добавляем имя, фамилию и id в список контактов, а также телефоны
+                addressCell = cellsList[3].text
+                allEmails = cellsList[4].text
+                all_phones = cellsList[5].text # из ячейки 5 берем text
+                self.contact_cache.append(Contact_properties(lastname=textFromLastName, firstname=textFromFirstName,
+                                                             id=id, address=addressCell, allEmails_from_home_page=allEmails,
+                                                             all_phones_from_home_page=all_phones))  # добавляем имя, фамилию и id в список контактов, а также телефоны
         return list(self.contact_cache)
 
     def open_contact_edit_page_by_index(self, index_cont):
@@ -277,9 +281,14 @@ class ContactHelper:
         work = wd.find_element_by_name("work").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         phone2 = wd.find_element_by_name("phone2").get_attribute("value")
+        address = wd.find_element_by_name("address").text
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         wd.find_element_by_link_text("home").click()
         # Из полученных данных строим объект (название_параметра = название_локальной_переменной)
-        return Contact_properties(firstname=firstname, lastname=lastname, id=id, home=home, work=work, mobile=mobile, phone2=phone2)
+        return Contact_properties(firstname=firstname, lastname=lastname, id=id, home=home, work=work, mobile=mobile,
+                                  phone2=phone2, address=address, email=email, email2=email2, email3=email3)
 
     def get_contact_from_view_page(self, index_cont):
         wd = self.app.wd
@@ -292,6 +301,3 @@ class ContactHelper:
         wd.find_element_by_link_text("home").click()
         return Contact_properties(home=homephone, work=workphone, mobile=mobilephone,
                                   phone2=secondaryphone)
-
-
-
