@@ -255,6 +255,7 @@ class ContactHelper:
                                                              all_phones_from_home_page=all_phones))  # добавляем имя, фамилию и id в список контактов, а также телефоны
         return list(self.contact_cache)
 
+    # открыть контакт для радактирования по индексу чтобы считать информацию с полей для метода get_contact_info_from_edit_page
     def open_contact_edit_page_by_index(self, index_cont):
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
@@ -263,6 +264,7 @@ class ContactHelper:
         selectCell = rowList.find_elements_by_tag_name("td")[7]
         selectCell.find_element_by_tag_name("a").click()
 
+    # открыть страницу контакта по индексу
     def open_contact_view_page_by_index(self, index_cont):
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
