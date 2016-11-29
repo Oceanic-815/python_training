@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from model.contact_properties import Contact_properties
-#import random
-#import string
-
 
 testdata = [
     Contact_properties(firstname="nameee1", middlename="middle name", lastname="last nameee1", nickname="nickname1",
