@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
-from random import randrange
+import random
 
-def test_edit_first_group(app):
+def test_edit_first_group(app, db):
     group = Group(name="New group", header="added header", footer="added footer")
-    if app.group.count() == 0:
+    if len(db.get_group_list()) == 0:
         app.group.create(group)
-    old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
-    group.id = old_groups[index].id
-    app.group.edit_group_by_index(index, group)
-    new_groups = app.group.get_group_list()
-    assert len(old_groups) == len(new_groups)
-    old_groups[index] = group
+    old_groups = db.get_group_list()
+    group = random.choice(old_groups)
+    app.group.edit_group_by_id(group.id, group)
+    new_groups = db.get_group_list()
+    #assert len(old_groups) == len(new_groups)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
+
+# after 'group = random'
+# index = randrange(len(old_groups))
+# group.id = old_groups[index].id
 """
 def test_edit_first_group_header(app):
     old_groups = app.group.get_group_list()
