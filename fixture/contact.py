@@ -231,15 +231,10 @@ class ContactHelper:
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
             wd.find_element_by_link_text("home").click()
-        #wd.find_elements_by_name("selected[]").click()
-        if wd.find_element_by_name("selected[]").get_attribute("value")  == True:
-           wd.find_element_by_css_selector("input[value='%s']" % id).click()
-           wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
-           wd.switch_to_alert().accept()
-           wd.find_element_by_link_text("home").click()
-        else:
-            print("No elements" + str(id))
-        self.contact_cache = None
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        wd.find_element_by_link_text("home").click()
 
         # define if there is any contact in the contacts list
     def count_cont(self):
