@@ -210,6 +210,86 @@ class ContactHelper:
         # Clean up cache
         self.contact_cache = None
 
+    def edit_contact_by_id(self, id):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/")) and len(wd.find_elements_by_name("add")) > 0:
+            wd.find_element_by_link_text("home").click()
+        checkbox = wd.find_element_by_css_selector("input[value='%s']" % id)
+        row = checkbox.find_element_by_xpath("./../..")
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys("Edited!!!")
+        wd.find_element_by_name("middlename").click()
+        wd.find_element_by_name("middlename").clear()
+        wd.find_element_by_name("middlename").send_keys("Edited!!!")
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys("Edited!!!")
+        wd.find_element_by_name("nickname").click()
+        wd.find_element_by_name("nickname").clear()
+        wd.find_element_by_name("nickname").send_keys("Edited!!!")
+        wd.find_element_by_name("title").click()
+        wd.find_element_by_name("title").clear()
+        wd.find_element_by_name("title").send_keys("Edited!!!")
+        wd.find_element_by_name("company").click()
+        wd.find_element_by_name("company").clear()
+        wd.find_element_by_name("company").send_keys("Edited!!!")
+        wd.find_element_by_name("address").click()
+        wd.find_element_by_name("address").clear()
+        wd.find_element_by_name("address").send_keys("Edited!!!")
+        wd.find_element_by_name("home").click()
+        wd.find_element_by_name("home").clear()
+        wd.find_element_by_name("home").send_keys("100000")
+        wd.find_element_by_name("mobile").click()
+        wd.find_element_by_name("mobile").clear()
+        wd.find_element_by_name("mobile").send_keys("111111")
+        wd.find_element_by_name("work").click()
+        wd.find_element_by_name("work").clear()
+        wd.find_element_by_name("work").send_keys("222222")
+        wd.find_element_by_name("fax").click()
+        wd.find_element_by_name("fax").clear()
+        wd.find_element_by_name("fax").send_keys("333333")
+        wd.find_element_by_name("email").click()
+        wd.find_element_by_name("email").clear()
+        wd.find_element_by_name("email").send_keys("Edited!!!@fgh.com")
+        wd.find_element_by_name("email2").click()
+        wd.find_element_by_name("email2").clear()
+        wd.find_element_by_name("email2").send_keys("Edited!!!@edited.com")
+        wd.find_element_by_name("email3").click()
+        wd.find_element_by_name("email3").clear()
+        wd.find_element_by_name("email3").send_keys("Edited!!!@fff.cv")
+        wd.find_element_by_name("homepage").click()
+        wd.find_element_by_name("homepage").clear()
+        wd.find_element_by_name("homepage").send_keys("Edited!!!.edit.ed")
+        if not wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[6]").is_selected():
+            wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[6]").click()
+        if not wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[5]").is_selected():
+            wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[5]").click()
+        wd.find_element_by_name("byear").click()
+        wd.find_element_by_name("byear").clear()
+        wd.find_element_by_name("byear").send_keys("Edited!!!")
+        if not wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[7]").is_selected():
+            wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[7]").click()
+        if not wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[8]").is_selected():
+            wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[8]").click()
+        wd.find_element_by_name("ayear").click()
+        wd.find_element_by_name("ayear").clear()
+        wd.find_element_by_name("ayear").send_keys("Edited!!!")
+        wd.find_element_by_name("address2").click()
+        wd.find_element_by_name("address2").clear()
+        wd.find_element_by_name("address2").send_keys("Edited!!!")
+        wd.find_element_by_name("phone2").click()
+        wd.find_element_by_name("phone2").clear()
+        wd.find_element_by_name("phone2").send_keys("444444")
+        wd.find_element_by_name("notes").click()
+        wd.find_element_by_name("notes").clear()
+        wd.find_element_by_name("notes").send_keys("Edited!!!")
+        wd.find_element_by_name("update").click()
+        self.contact_cache = None
+
+
     def del_contact(self):
         self.del_contact_by_index(0)
 
