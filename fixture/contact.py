@@ -104,6 +104,32 @@ class ContactHelper:
             # Clean up cache
         self.contact_cache = None
 
+    def add_contact_into_group(self, contact_properties):
+        wd = self.app.wd
+        wd.find_element_by_link_text("add new").click()
+        # enter a first name
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(contact_properties.firstname)
+        # enter a middle name
+        wd.find_element_by_name("middlename").click()
+        wd.find_element_by_name("middlename").clear()
+        wd.find_element_by_name("middlename").send_keys(contact_properties.middlename)
+        # enter last name
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys(contact_properties.lastname)
+        # enter a nickname
+        wd.find_element_by_name("nickname").click()
+        wd.find_element_by_name("nickname").clear()
+        wd.find_element_by_name("nickname").send_keys(contact_properties.nickname)
+        # specify a group
+        if not wd.find_element_by_xpath("//div[@id='content']/form/select[5]//option[3]").is_selected():
+            wd.find_element_by_xpath("//div[@id='content']/form/select[5]//option[3]").click()
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+
+
     def edit_contact(self):
         self.edit_contact_by_index(0)
         self.contact_cache = None

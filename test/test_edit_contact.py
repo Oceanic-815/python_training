@@ -6,13 +6,11 @@ def test_edit_contact(app, db, check_ui):
     if app.contact.count_cont() == 0:
         app.contact.add_contact(cont_mod)
     old_contacts_list = db.get_contact_list()
-    #index_cont = randrange(len(old_contacts_list))
     contact = random.choice(old_contacts_list)
-    #cont_mod.id = old_contacts_list[index_cont].id
     app.contact.edit_contact_by_id(contact.id)
     new_contacts_list = db.get_contact_list()
     assert len(old_contacts_list) == len(new_contacts_list)
-    #old_contacts_list[index_cont] = cont_mod
+    assert sorted(old_contacts_list, key=Contact_properties.id_or_max) == sorted(new_contacts_list, key=Contact_properties.id_or_max)
     if check_ui:
         assert sorted(new_contacts_list, key=Contact_properties.id_or_max) == sorted(app.contact.get_contact_list(),
                                                                                      key=Contact_properties.id_or_max)
